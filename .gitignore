@@ -1,0 +1,13 @@
+# Ignore idea folder
+.idea
+
+# Variables de entorno
+infra/.env
+
+# Credenciales Cuenta de Servicio
+infra/cloud-tfm.json
+
+.DS_Store
+
+.terraform*
+terraform*
