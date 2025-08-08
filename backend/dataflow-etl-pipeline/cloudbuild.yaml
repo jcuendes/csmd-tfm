@@ -1,0 +1,24 @@
+steps:
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'gcloud'
+    args:
+      - 'dataflow'
+      - 'flex-template'
+      - 'build'
+      - 'gs://${_BUCKET_NAME}/templates/coches_segunda_mano_template.json'
+      - '--image'
+      - 'europe-west1-docker.pkg.dev/${PROJECT_ID}/${_ARTIFACT_REPO_NAME}/coches-segunda-mano:latest'
+      - '--sdk-language'
+      - 'PYTHON'
+      - '--flex-template-base-image'
+      - 'gcr.io/dataflow-templates-base/python3-template-launcher-base'
+      - '--py-path'
+      - '.'
+      - '--env'
+      - 'FLEX_TEMPLATE_PYTHON_PY_FILE=csv_to_bigquery_pipeline.py'
+    dir: 'etl_pipeline' # Le dice a Cloud Build que ejecute el comando desde este subdirectorio
+
+# Las sustituciones permiten pasar variables desde el Trigger de Cloud Build al proceso de compilación.
+substitutions:
+  _BUCKET_NAME: 'default-bucket-name'
+  _ARTIFACT_REPO_NAME: 'default-repo-name'
